@@ -1,2 +1,2 @@
 # Test-Project
-#A test for the project using github
+# This project is using the design pattern observer to design a weather software
