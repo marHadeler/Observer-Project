@@ -17,7 +17,7 @@ public class weather extends JFrame{
     private final int WINDOW_WIDTH=400;
     private final int WINDOW_HEIGHT=200;
     public weather (){
-        super("Metric Converter");
+        super("Weather Data");
         setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         buildPanel();
