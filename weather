@@ -1,0 +1,117 @@
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+import java.net.URL;
+import java.net.*;  
+import java.io.*;
+public class weather extends JFrame{
+    private JPanel panel; 
+    private JLabel instructions;
+    private JLabel temperature;
+    private JLabel errorMessage;
+    private JLabel fLike;
+    private JLabel humidity;
+    private JLabel pressure; //pressure
+    private JTextField cityTextField;
+    private JButton startProcess;
+    private final int WINDOW_WIDTH=400;
+    private final int WINDOW_HEIGHT=200;
+    public weather (){
+        super("Metric Converter");
+        setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        buildPanel();
+        add(panel);
+        setVisible(true);
+    }
+    private void buildPanel(){
+        instructions = new JLabel("enter city");
+        cityTextField = new JTextField(10);
+        startProcess = new JButton("enter");
+        temperature = new JLabel("");
+        fLike = new JLabel("");
+        humidity = new JLabel("");
+        errorMessage = new JLabel("check spelling");
+        startProcess.addActionListener(new update());
+        panel = new JPanel();
+        panel.add(instructions);
+        panel.add(cityTextField);
+        panel.add(startProcess);
+        panel.add(temperature);
+        panel.add(fLike);
+        panel.add(humidity);
+        panel.add(errorMessage);
+        errorMessage.setVisible(false);
+    }
+    private class update implements ActionListener{
+        public void actionPerformed(ActionEvent e){
+            String city;
+            city=cityTextField.getText();
+            errorMessage.setVisible(false);
+            if (e.getSource()==startProcess){
+                String begin= "https://api.openweathermap.org/data/2.5/weather?q=";
+                String end = "&appid=abd41b0a48d3c90ed014f3841011e455&units=imperial";
+                String currentTemp="";
+                String feels="";
+                String currentHumidity="";
+                try {
+                    URL url = new URL(begin+city+end);
+                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                    conn.setRequestMethod("GET");
+                    conn.setRequestProperty("Accept", "application/json");
+                    if (conn.getResponseCode() != 200) {
+                        errorMessage.setVisible(true);
+                        temperature.setText("");
+                        fLike.setText("");
+                        humidity.setText("");
+                    }else{
+                        String s1  = getUrlContents(begin+city+end);
+                        System.out.println(s1);//remove
+                        char marks = '"';
+                        String find =marks +"temp"+marks+":";
+                        String [] words = s1.split(find);
+                        for (int i = 0; i < words.length; i++) {
+                            currentTemp = words[i];
+                        }   
+                        temperature.setText("current temp in "+city + " is "+currentTemp.substring(0,2));
+                        find =marks+"feels_like"+marks+":";
+                        words = currentTemp.split(find);
+                        for (int i = 0; i < words.length; i++) {
+                            feels = words[i];
+                        }   
+                        fLike.setText("feels like "+feels.substring(0,2));
+                        find = marks+"humidity"+marks+":";
+                        words = feels.split(find);
+                        for (int i = 0; i < words.length; i++) {
+                            currentHumidity = words[i];
+                        } 
+                        humidity.setText("humidity: "+currentHumidity.substring(0,2));
+                    }
+                    conn.disconnect();
+                  } 
+                 catch (Exception error ) {
+                    errorMessage.setVisible(true);
+                 }
+            }
+        }
+        private static String getUrlContents(String theUrl){  
+            StringBuilder content = new StringBuilder();  
+            try  {  
+                URL url = new URL(theUrl); 
+                URLConnection urlConnection = url.openConnection(); 
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));  
+                String line;  
+                while ((line = bufferedReader.readLine()) != null)  {  
+                    content.append(line + "\n");  
+                }  
+                bufferedReader.close();  
+            }  catch(Exception e) {  
+                e.printStackTrace();  
+            }  
+            return content.toString();  
+        }  
+    }
+    public static void main(String [] args){
+        new weather ();
+    }
+}
