@@ -1,6 +1,0 @@
-# this is the main file for the project
-public class Test-Project {
-  	public static void main(String[] args) {
-		System.out.println("Hello, World!");
-	}
-}
