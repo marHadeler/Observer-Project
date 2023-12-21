@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Observer Project - Weather App</title>
+        <link rel="stylesheet" href="css/WebsiteStyle.css"> 
+    </head>
+    <body>
+        <!--This is the top bar that will display the fake logo, search bar, and city-->
+        <div class="weather-page">
+
+            <h3 id = "title">Observant Weather</h3>
+            <div class = "city-and-search">
+                <div class="column">
+                    <div class="city-name">
+                         Long
+                    </div>
+
+                    <hr class = "divider">
+
+                    <div class = "basic-info">
+                        <div class="temp"></div>
+                        <br>
+                        <div class="status"></div>
+                    </div>
+                </div>
+
+                <div class = "column">
+                    <div class="search">
+                        <input type="text" placeholder="Lookup City" spellcheck = "false">
+                        <img src="img/search_button.png">
+                    </div>
+
+                    <hr class = "divider">
+
+                    <!--This will be two columns which contain information about the weather-->
+                    <div class="extra-info">
+                        <div class="column">
+                            <p>Humidity: </p>
+                            <p>Feels Like: </p>
+                            <p>Wind Speed: </p>
+                            <p>Pressure: </p>
+                        </div>
+
+                        <div class="column">
+                            <p class="humidity"></p>
+                            <p class="feels-like"></p>
+                            <p class="wind-speed"></p>
+                            <p class="pressure"></p>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        <script src = js/weatherscript.js></script>
+    </body>
+</html>
