@@ -6,9 +6,8 @@ import java.net.*;
 import java.io.*;
 import static org.junit.jupiter.api.Assertions.*;
 
+// Initializing the window labels and variables used
 public class weather extends JFrame{
-
-    // Initializing the window labels and variables used
     private JPanel panel; 
     private JLabel instructions;
     private JLabel temperature;
@@ -21,9 +20,8 @@ public class weather extends JFrame{
     private final int WINDOW_WIDTH=400;    // window width is 400 pixels
     private final int WINDOW_HEIGHT=200;   // window height is 200 pixels
 
+    // Setting up the main panel for the user interface
     public weather (){
-
-        // Setting up the main panel for the user interface
         super("Weather Data");
         setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
