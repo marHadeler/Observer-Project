@@ -51,34 +51,38 @@ public class weather extends JFrame{
         errorMessage.setVisible(false);
     }
 
-    // Main execution of the code to get weather information from the API through the URL
+    /* Main execution of the code to get weather information from the API through the URL.
+     * The main URL is crafted with the beginning of the main URL from the website, plus
+     * the middle, which would be the city from the user input, plus the ending of the
+       main URL from the website. */
     private class update implements ActionListener{
         public void actionPerformed(ActionEvent e){
-            String city;
+            String city; // This is the middle piece to bridge the gap in the main URL
             city=cityTextField.getText();
             errorMessage.setVisible(false);
             if (e.getSource()==startProcess){
-                String begin = "https://api.openweathermap.org/data/2.5/weather?q=";    // Beginning of the URL access -- the middle piece is the city entered by the user
-                String end = "&appid=abd41b0a48d3c90ed014f3841011e455&units=imperial";  // End of the URL string
+                // Beginning of the URL access -- the middle piece is the city entered by the user
+                String begin = "https://api.openweathermap.org/data/2.5/weather?q=";
+                String end = "&appid=abd41b0a48d3c90ed014f3841011e455&units=imperial"; // End of the URL string
+                // Information received from URL
                 String currentTemp="";
                 String feels="";
                 String currentHumidity="";
 
-                // If the URL does not work (The city was spelled wrong or does not exist)
-                // an error occurred in the catch statement below, telling the user to check their spelling
+                /* If the URL does not work (The city was spelled wrong or does not exist)
+                   an error occurred in the catch statement below, telling the user to check their spelling */
                 try {
-                    URL url = new URL(begin+city+end);
+                    URL url = new URL(begin+city+end); // combines all three URL fragments to form the final URL to be accessed
                     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                     if (conn.getResponseCode() != 200) {
                         errorMessage.setVisible(true);
                         temperature.setText("");
                         fLike.setText("");
                         humidity.setText("");
-                    }else{
-                        String s1  = getUrlContents(begin+city+end);
-                        System.out.println(s1);//remove
+                    } else {
+                        String s1 = getUrlContents(begin+city+end);
                         char marks = '"';
-                        String find =marks +"temp"+marks+":";
+                        String find = marks + "temp" + marks + ":";
                         String [] words = s1.split(find);
                         for (int i = 0; i < words.length; i++) {
                             currentTemp = words[i];
@@ -97,16 +101,17 @@ public class weather extends JFrame{
                         } 
                         humidity.setText("humidity: "+currentHumidity.substring(0,2));
                     }
-                  } 
-                 catch (Exception error ) {
+                }
+                // If the error occurs, dislay the "check spelling" error message
+                catch (Exception error ) {
                     errorMessage.setVisible(true);
-                 }
+                }
             }
         }
 
         private static String getUrlContents(String theUrl){  
             StringBuilder content = new StringBuilder();  
-            try  {  
+            try {  
                 URL url = new URL(theUrl); 
                 URLConnection urlConnection = url.openConnection(); 
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));  
